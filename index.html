@@ -9,8 +9,8 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
-    <script src="js/jquery.knob.js"></script>
+    <!--[if IE]><script type="text/javascript" src="/js/excanvas.js"></script><![endif]-->
+    <script src="/js/jquery.knob.js"></script>
     <script>
 
       /**
@@ -21,7 +21,6 @@
 
       // Define setters and getters for this property
       HomeControl.prototype.getHome = function() {return this.home_;}
-
       HomeControl.prototype.setHome = function(home) {this.home_ = home;}
 
       /** @constructor */
@@ -134,9 +133,8 @@
       }
       clock();
     </script>
-    
+  
     <div id="clock-control" class="demo" style="color:#EEE;background:#222;height:420px;width:100%">
-      <p>&#215; Superpose (unreadable futuristic clock)</p>
       <div style="position:relative;width:350px;margin:auto">
         <div style="position:absolute;left:10px;top:10px">
           <input class="knob hour" data-min="0" data-max="24" data-bgColor="#333" data-fgColor="#ffec03" data-displayInput=false data-width="300" data-height="300" data-thickness=".3">
