@@ -110,7 +110,10 @@
         //homeControlDiv.index = 1;
         //map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 
-//        myPano.setVisible(true);
+        var clockControl = document.getElementById('clock-control');
+        clockControl.index = 1;
+
+        myPano.setVisible(true);
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
@@ -134,7 +137,7 @@
     }
     clock();
     </script>
-    <div class="demo" style="color:#EEE;background:#222;height:420px;width:100%">
+    <div id="clock-control" class="demo" style="color:#EEE;background:#222;height:420px;width:100%">
       <p>&#215; Superpose (unreadable futuristic clock)</p>
         <div style="position:relative;width:350px;margin:auto">
           <div style="position:absolute;left:10px;top:10px">
