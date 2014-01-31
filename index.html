@@ -1,153 +1,142 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PhotoSphere</title>
+    <title>Spheres</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
       html, body, #map-canvas {height: 100%; margin: 0px; padding: 0px; overflow: hidden}
     </style>
+    <script src="js/jquery.knob.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
-    <script src="js/jquery.knob.js"></script>
     <script>
       $(function($) {
-                $(".knob").knob({
-                    change : function (value) {
-                        //console.log("change : " + value);
-                    },
-                    release : function (value) {
-                        //console.log(this.$.attr('value'));
-                        console.log("release : " + value);
-                    },
-                    cancel : function () {
-                        console.log("cancel : ", this);
-                    },
-                    draw : function () {
+        $(".knob").knob({
+          change : function (value) {
+            //console.log("change : " + value);
+          },
+          release : function (value) {
+            //console.log(this.$.attr('value'));
+            //console.log("release : " + value);
+          },
+          cancel : function () {
+            //console.log("cancel : ", this);
+          },
+          draw : function () {
+            // "tron" case
+            if(this.$.data('skin') == 'tron') {
+              var a = this.angle(this.cv)  // Angle
+               , sa = this.startAngle      // Previous start angle
+               , sat = this.startAngle     // Start angle
+               , ea                        // Previous end angle
+               , eat = sat + a             // End angle
+               , r = 1;
 
-                        // "tron" case
-                        if(this.$.data('skin') == 'tron') {
+              this.g.lineWidth = this.lineWidth;
+              this.o.cursor && (sat = eat - 0.3) && (eat = eat + 0.3);
 
-                            var a = this.angle(this.cv)  // Angle
-                                , sa = this.startAngle          // Previous start angle
-                                , sat = this.startAngle         // Start angle
-                                , ea                            // Previous end angle
-                                , eat = sat + a                 // End angle
-                                , r = 1;
+              if (this.o.displayPrevious) {
+                ea = this.startAngle + this.angle(this.v);
+                this.o.cursor && (sa = ea - 0.3) && (ea = ea + 0.3);
+                this.g.beginPath();
+                this.g.strokeStyle = this.pColor;
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                this.g.stroke();
+              }
 
-                            this.g.lineWidth = this.lineWidth;
+              this.g.beginPath();
+              this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+              this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+              this.g.stroke();
 
-                            this.o.cursor
-                                && (sat = eat - 0.3)
-                                && (eat = eat + 0.3);
+              this.g.lineWidth = 2;
+              this.g.beginPath();
+              this.g.strokeStyle = this.o.fgColor;
+              this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+              this.g.stroke();
 
-                            if (this.o.displayPrevious) {
-                                ea = this.startAngle + this.angle(this.v);
-                                this.o.cursor
-                                    && (sa = ea - 0.3)
-                                    && (ea = ea + 0.3);
-                                this.g.beginPath();
-                                this.g.strokeStyle = this.pColor;
-                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-                                this.g.stroke();
-                            }
-
-                            this.g.beginPath();
-                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-                            this.g.stroke();
-
-                            this.g.lineWidth = 2;
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.o.fgColor;
-                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                            this.g.stroke();
-
-                            return false;
-                        }
-                    }
-                });
+              return false;
+            }
+          }
+        });
       });
     </script>
     <script>
 
-      /**
-       * The HomeControl adds a control to the map that returns the user to the control's defined home.
-       */
-      // Define a property to hold the Home state
-      HomeControl.prototype.home_ = null;
+      // The TimeControl
+      // Define a property to hold the Time state
+      TimeControl.prototype.time_ = null;
 
       // Define setters and getters for this property
-      HomeControl.prototype.getHome = function() {return this.home_;}
-      HomeControl.prototype.setHome = function(home) {this.home_ = home;}
+      TimeControl.prototype.getTime = function() {return this.time_;}
+      TimeControl.prototype.setTime = function(time) {this.time_ = time;}
 
       /** @constructor */
       function HomeControl(controlDiv, map, home) {
-
         // We set up a variable for this since we're adding event listeners later.
         var control = this;
 
-        // Set the home property upon construction
-        control.home_ = home;
+        // Set the time property upon construction
+        control.time_ = time;
 
-        // Set CSS styles for the DIV containing the control
-        // Setting padding to 5 px will offset the control from the edge of the map
+        // Set CSS styles for the DIV containing the control, setting padding to 5px offsets the control from the edge
         controlDiv.style.padding = '5px';
 
         // Set CSS for the control border
-        var goHomeUI = document.createElement('div');
-        goHomeUI.style.backgroundColor = 'white';
-        goHomeUI.style.borderStyle = 'solid';
-        goHomeUI.style.borderWidth = '2px';
-        goHomeUI.style.cursor = 'pointer';
-        goHomeUI.style.textAlign = 'center';
-        goHomeUI.title = 'Click to set the map to Home';
-        controlDiv.appendChild(goHomeUI);
+        var theTimeUI = document.createElement('div');
+//        theTimeUI.style.backgroundColor = 'white';
+//        goHomeUI.style.borderStyle = 'solid';
+//        goHomeUI.style.borderWidth = '2px';
+//        goHomeUI.style.cursor = 'pointer';
+//        goHomeUI.style.textAlign = 'center';
+//        goHomeUI.title = 'Click to set the map to Home';
+//        controlDiv.appendChild(goHomeUI);
 
         // Set CSS for the control interior
-        var goHomeText = document.createElement('div');
-        goHomeText.style.fontFamily = 'Arial,sans-serif';
-        goHomeText.style.fontSize = '12px';
-        goHomeText.style.paddingLeft = '4px';
-        goHomeText.style.paddingRight = '4px';
-        goHomeText.innerHTML = '<b>Home</b>';
-        goHomeUI.appendChild(goHomeText);
+//        var goHomeText = document.createElement('div');
+//        goHomeText.style.fontFamily = 'Arial,sans-serif';
+//        goHomeText.style.fontSize = '12px';
+//        goHomeText.style.paddingLeft = '4px';
+//        goHomeText.style.paddingRight = '4px';
+//        goHomeText.innerHTML = '<b>Home</b>';
+//        goHomeUI.appendChild(goHomeText);
 
         // Set CSS for the setHome control border
-        var setHomeUI = document.createElement('div');
-        setHomeUI.style.backgroundColor = 'white';
-        setHomeUI.style.borderStyle = 'solid';
-        setHomeUI.style.borderWidth = '2px';
-        setHomeUI.style.cursor = 'pointer';
-        setHomeUI.style.textAlign = 'center';
-        setHomeUI.title = 'Click to set Home to the current center';
-        controlDiv.appendChild(setHomeUI);
+//        var setHomeUI = document.createElement('div');
+//        setHomeUI.style.backgroundColor = 'white';
+//        setHomeUI.style.borderStyle = 'solid';
+//        setHomeUI.style.borderWidth = '2px';
+//        setHomeUI.style.cursor = 'pointer';
+//        setHomeUI.style.textAlign = 'center';
+//        setHomeUI.title = 'Click to set Home to the current center';
+//        controlDiv.appendChild(setHomeUI);
 
         // Set CSS for the control interior
-        var setHomeText = document.createElement('div');
-        setHomeText.style.fontFamily = 'Arial,sans-serif';
-        setHomeText.style.fontSize = '12px';
-        setHomeText.style.paddingLeft = '4px';
-        setHomeText.style.paddingRight = '4px';
-        setHomeText.innerHTML = '<b>Set Home</b>';
-        setHomeUI.appendChild(setHomeText);
+//        var setHomeText = document.createElement('div');
+//        setHomeText.style.fontFamily = 'Arial,sans-serif';
+//        setHomeText.style.fontSize = '12px';
+//        setHomeText.style.paddingLeft = '4px';
+//        setHomeText.style.paddingRight = '4px';
+//        setHomeText.innerHTML = '<b>Set Home</b>';
+//        setHomeUI.appendChild(setHomeText);
 
         // Setup the click event listener for Home: simply set the map to the control's current home property.
-        google.maps.event.addDomListener(
-          goHomeUI, 'click', function() {
-            var currentHome = control.getHome();
-            map.setCenter(currentHome);
-          }
-        );
+//        google.maps.event.addDomListener(
+//          goHomeUI, 'click', function() {
+//            var currentHome = control.getHome();
+//            map.setCenter(currentHome);
+//          }
+//        );
 
         // Setup the click event listener for Set Home:
         // Set the control's home to the current Map center.
-        google.maps.event.addDomListener(setHomeUI, 'click', function() {
-          var newHome = map.getCenter();
-          control.setHome(newHome);
-        });
-      }
+//        google.maps.event.addDomListener(setHomeUI, 'click', function() {
+//          var newHome = map.getCenter();
+//          control.setHome(newHome);
+//        });
+//      }
 
       function initialize() {
         var panoramaOptions = {
@@ -166,10 +155,9 @@
         //var homeControl = new HomeControl(homeControlDiv, map, chicago);
 
         //homeControlDiv.index = 1;
-        //map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
-
-        var clockControl = document.getElementById('clock-control');
-        clockControl.index = 1;
+        var timeControl = document.getElementById('time-control');
+        timeControl.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(timeControlDiv);
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
@@ -177,30 +165,61 @@
   </head>
   <body>
     <script>
+       function dayofyear(d) {
+         var yn = d.getFullYear();
+         var mn = d.getMonth();
+         var dn = d.getDate();
+         var d1 = new Date(yn,0,1,12,0,0); // noon on Jan. 1
+         var d2 = new Date(yn,mn,dn,12,0,0); // noon on input date
+         var ddiff = Math.round((d2-d1)/864e5);
+         return ddiff;
+       }
+    
       function clock() {
         var $s = $(".second"),
             $m = $(".minute"),
-            $h = $(".hour");
-            d = new Date(),
-            s = d.getSeconds(),
-            m = d.getMinutes(),
-            h = d.getHours();
+            $h = $(".hour"),
+            $d = $(".day"),
+            $o = $(".month"),
+            
+        curDate = new Date(),
+            
+        s = curDate.getSeconds(),
+        m = curDate.getMinutes(),
+        h = curDate.getHours(),
+        d = dayofyear(curDate),
+        o = curDate.getMonth();
+        
         $s.val(s).trigger("change");
         $m.val(m).trigger("change");
         $h.val(h).trigger("change");
+        $d.val(d).trigger("change");
+        $o.val(o).trigger("change");
+        
         setTimeout("clock()", 1000);
       }
       clock();
     </script>
   
-    <div id="clock-control" class="demo" style="color:#EEE;background:#222;height:420px;width:100%">
+    <div id="time-control" class="demo" style="color:#EEE;background:#222;height:420px;width:100%">
       <div style="position:relative;width:350px;margin:auto">
+
+        <div style="position:absolute;left:1px;top:1px">
+          <input class="knob month" data-min="0" data-max="11" data-bgColor="#333" data-fgColor="#ecff03" data-displayInput=false data-width="500" data-height="500" data-thickness=".3">
+        </div>
+
+        <div style="position:absolute;left:5px;top:5px">
+          <input class="knob day" data-min="0" data-max="365" data-bgColor="#333" data-fgColor="#ff03ec" data-displayInput=false data-width="400" data-height="400" data-thickness=".3">
+        </div>
+        
         <div style="position:absolute;left:10px;top:10px">
           <input class="knob hour" data-min="0" data-max="24" data-bgColor="#333" data-fgColor="#ffec03" data-displayInput=false data-width="300" data-height="300" data-thickness=".3">
         </div>
+        
         <div style="position:absolute;left:60px;top:60px">
           <input class="knob minute" data-min="0" data-max="60" data-bgColor="#333" data-displayInput=false data-width="200" data-height="200" data-thickness=".45">
         </div>
+        
         <div style="position:absolute;left:110px;top:110px">
           <input class="knob second" data-min="0" data-max="60" data-bgColor="#333" data-fgColor="rgb(127, 255, 0)" data-displayInput=false data-width="100" data-height="100" data-thickness=".3">
         </div>
