@@ -1,4 +1,4 @@
 philipmather.github.io
 ======================
 
-Github IO repository
+http://philipmather.github.io/
