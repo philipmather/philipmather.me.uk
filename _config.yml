@@ -1,3 +1,5 @@
 name: Philip Mather
 markdown: kramdown
 theme: jekyll-theme-cayman
+plugins:
+  - jekyll-sitemap
