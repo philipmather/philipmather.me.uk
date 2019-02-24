@@ -63,6 +63,12 @@ p.headerlead {
     color: #acaeaf;
 }
 
+.dividerLine {
+    max-width: 334px;
+    height: 1px;
+    border-top: 1px #acaeaf solid;
+}
+
 #particle-js {
     position: absolute;
     width: 100%;
@@ -110,7 +116,8 @@ margin-left: -5%;
 }
 
 .flex-item-txtblock {
-    padding: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .hero-img {
