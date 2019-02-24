@@ -5,8 +5,19 @@ body {
 }
 
 body {
-  font-size: 1em;
   line-height: 1.4;
+}
+
+::-moz-selection {
+    background: #f2c2c9;
+    color: #a4003a;
+    text-shadow: none;
+}
+
+::selection {
+    background: #f7960b;
+    color: #ffffff;
+    text-shadow: none;
 }
 
 img {
@@ -47,7 +58,7 @@ p.headerName {
 
 p.headerlead {
     max-width: 340px;
-    font-size: 16px;
+    font-size: 18px;
     margin-top: -6px;
     color: #acaeaf;
 }
@@ -84,7 +95,7 @@ a:hover {
 
 footer {
     border-top: 1px solid #d5d5d5;
-    font-size: .8em;
+    font-size: 16px;
 }
 
 .flex {
@@ -100,7 +111,6 @@ margin-left: -5%;
 
 .flex-item-txtblock {
     padding: 50px;
-    padding-top: 100px;
 }
 
 .hero-img {
