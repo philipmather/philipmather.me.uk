@@ -31,6 +31,14 @@ p {
     margin-bottom: 25px;
 }
 
+.headerwrap p {
+    color: #3ab8ad;
+    font-size: 35px;
+    font-weight: 400;
+    text-align: center;
+    padding-top: 10px;
+}
+
 .headerName {
     margin-bottom: 2px;
 }
@@ -44,14 +52,6 @@ p.headerlead {
     font-size: 16px;
     margin-top: -6px;
     color: #acaeaf;
-}
-
-.headerwrap p {
-    color: #3ab8ad;
-    font-size: 35px;
-    font-weight: 400;
-    text-align: center;
-    padding-top: 10px;
 }
 
 #particle-js {
