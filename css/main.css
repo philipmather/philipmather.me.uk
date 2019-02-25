@@ -197,10 +197,6 @@ margin-left: -5%;
     margin-left: auto;
 }
 
-.tintGreen {
-    background: #3ab8ad;
-}
-
 .tint_image {
     opacity: 0.5;
     filter: alpha(opacity=20);
