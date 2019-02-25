@@ -197,6 +197,10 @@ margin-left: -5%;
     margin-left: auto;
 }
 
+.tintGreen {
+    background: #3ab8ad;
+}
+
 .tint_image {
     opacity: 0.5;
     filter: alpha(opacity=20);
@@ -204,6 +208,15 @@ margin-left: -5%;
     filter: grayscale(100%);
 }
 
-.tintGreen {
-    background: #3ab8ad;
+.tint_image:hover {
+    -moz-transition: all 1s;
+    -webkit-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-filter: grayscale(0%);
+    /*Chrome, Safari, Opera*/
+    filter: grayscale(0%);
 }
