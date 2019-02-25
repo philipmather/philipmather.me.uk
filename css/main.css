@@ -196,3 +196,14 @@ margin-left: -5%;
     margin-right: auto;
     margin-left: auto;
 }
+
+.tint_image {
+    opacity: 0.5;
+    filter: alpha(opacity=20);
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.tintGreen {
+    background: #3ab8ad;
+}
