@@ -5,10 +5,6 @@ body {
   background-color: #fff;
 }
 
-body {
-  line-height: 1.4;
-}
-
 ::-moz-selection {
     background: #f2c2c9;
     color: #a4003a;
@@ -68,7 +64,7 @@ p.headerName {
 
 p.headerlead {
     max-width: 340px;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: -6px;
     color: #acaeaf;
 }
